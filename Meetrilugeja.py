@@ -17,8 +17,7 @@ for i in physical_connection.values():
 os.putenv('SDL_FBDEV', '/dev/fb1')
 pygame.init()
 pygame.mouse.set_visible(False)
-lcd = pygame.display.set_mode((1500, 1024))
-#lcd = pygame.display.set_mode((1500, 1024),pygame.WINDOW)
+lcd = pygame.display.set_mode((1500, 1024),pygame.FULLSCREEN)
 #Initial values
 current_drum = 0
 meter_debounce_bit = 0
