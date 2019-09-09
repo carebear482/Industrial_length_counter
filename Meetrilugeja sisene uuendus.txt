@@ -1,0 +1,9 @@
+Re: Running a Python Script AFTER X GUI Starts up?
+Quote
+Wed Nov 20, 2013 6:02 am
+
+working code:
+sudo nano /etc/xdg/lxsession/LXDE/autostart
+
+edit :add last line
+@/usr/bin/python /home/pi/Meetrilugeja.py
