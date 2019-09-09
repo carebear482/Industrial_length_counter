@@ -1,6 +1,6 @@
 import pygame
-import os
-import time
+#import os
+#import time
 from time import sleep
 import RPi.GPIO as GPIO
 
@@ -13,18 +13,18 @@ color =  {'white' : (255, 255, 255),'black' : (0, 0, 0), 'red' : (255, 0, 0)}
 for i in physical_connection.values():
     GPIO.setup(i, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     print ('Defining inputs', i)
-
-os.putenv('SDL_FBDEV', '/dev/fb1')
+#Initial values
 pygame.init()
 pygame.mouse.set_visible(False)
-lcd = pygame.display.set_mode((1500, 1024),pygame.FULLSCREEN)
-#Initial values
+font_small = pygame.font.Font(None, 150)
+font_big = pygame.font.Font(None, 800)
+lcd = pygame.display.set_mode((1500, 1024))
+
 current_drum = 0
 meter_debounce_bit = 0
 reset_debounce_bit = 0
 last_drum = 0
-font_small = pygame.font.Font(None, 150)
-font_big = pygame.font.Font(None, 800)
+
 
 #Working loop
 while True:
