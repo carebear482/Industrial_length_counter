@@ -18,7 +18,7 @@ pygame.init()
 pygame.mouse.set_visible(False)
 font_small = pygame.font.Font(None, 150)
 font_big = pygame.font.Font(None, height)
-lcd = pygame.display.set_mode([width,height])
+lcd = pygame.display.set_mode([width,height],pygame.FULLSCREEN)
 
 
 # Initial counter values
