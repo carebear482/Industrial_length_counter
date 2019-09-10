@@ -1,9 +1,21 @@
-Re: Running a Python Script AFTER X GUI Starts up?
-Quote
-Wed Nov 20, 2013 6:02 am
+How to set up raspberry to automatically boot into counter script:
 
-working code:
+Step 1: Changing the resolution
+----------------------------------------------------------------------------------
+sudo raspi-config
+Advanced settings -> change resolution to 1920x1080
+
+Step 2:
+----------------------------------------------------------------------------------
 sudo nano /etc/xdg/lxsession/LXDE/autostart
+insert this to last line:
+@/usr/bin/python3 /home/pi/Industrial_length_counter/Meetrilugeja.py
 
-edit :add last line
-@/usr/bin/python /home/pi/Meetrilugeja.py
+Step 3:
+---------------------------------------------------------------------------------
+sudo nano /home/pi/.config/lxsession/LXDE-pi/autostart
+insert this to last line:
+@/usr/bin/python3 /home/pi/Industrial_length_counter/Meetrilugeja.py
+Step 4:
+---------------------------------------------------------------------------------
+sudo reboot
