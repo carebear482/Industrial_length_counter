@@ -12,11 +12,14 @@ for i in physical_connection.values():
     print('Defining inputs', i)
 
 # Initial pygame values
+width = 1280
+height = 720
 pygame.init()
 pygame.mouse.set_visible(False)
 font_small = pygame.font.Font(None, 150)
-font_big = pygame.font.Font(None, 800)
-lcd = pygame.display.set_mode((1500, 1024))
+font_big = pygame.font.Font(None, height)
+lcd = pygame.display.set_mode([width,height])
+
 
 # Initial counter values
 current_drum = 0
@@ -36,11 +39,11 @@ while True:
     if GPIO.input(physical_connection['meter_pulse']):
         # Current drum
         text_big = font_big.render('%d'%current_drum, True, color['white'])
-        text_box_big = text_big.get_rect(center=(750, 400))
+        text_box_big = text_big.get_rect(center=(width/2, (height + height)/5))
         lcd.blit(text_big, text_box_big)
         # Last drum
         text_small = font_small.render('Viimane trummel  ''%d'' m'%last_drum, True, color['white'])
-        text_box_small = text_small.get_rect(center=(700, 900))
+        text_box_small = text_small.get_rect(center=(width/2, (height - height/10)))
         lcd.blit(text_small, text_box_small)
         pygame.display.update()
         
