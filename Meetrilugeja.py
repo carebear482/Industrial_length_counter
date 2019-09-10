@@ -12,8 +12,8 @@ for i in physical_connection.values():
     print('Defining inputs', i)
 
 # Initial pygame values
-width = 1280
-height = 720
+width = 1920
+height = 1080
 pygame.init()
 pygame.mouse.set_visible(False)
 font_small = pygame.font.Font(None, 150)
