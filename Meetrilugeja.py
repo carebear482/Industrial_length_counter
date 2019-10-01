@@ -1,7 +1,7 @@
 import pygame
 
 # If raspberry is not used simulation in other platforms is possible
-using_raspberry = False
+using_raspberry = True
 if using_raspberry:
     import RPi.GPIO as GPIO
 
@@ -15,14 +15,10 @@ if using_raspberry:
     for i in physical_connection.values():
         GPIO.setup(i, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         print('Defining inputs', i)
-    meter_pulse = GPIO.input(physical_connection['meter_pulse'])
-    alarm = GPIO.input(physical_connection['alarm'])
-    reset = GPIO.input(physical_connection['reset_pulse'])
-    close_ui = GPIO.input(physical_connection['close_ui'])
 
 # Initial pygame variables
-width = 1920
-height = 1080
+width = 1700
+height = 900
 pygame.init()
 pygame.mouse.set_visible(False)
 lcd = pygame.display.set_mode([width, height], pygame.FULLSCREEN)
@@ -38,15 +34,12 @@ last_drum = 0
 meter_debounce_bit = 0
 reset_debounce_bit = 0
 done = False
-meter_pulse = 0
-alarm = 0
-reset = 0
 
 #Timer mode variables
 start_time = None
 timer_total_second = 0
 timer_setpoint = ''
-using_as_counter = 0
+using_as_counter = 1
 start = False
 word = ''
 last_drum_time = 0
@@ -64,8 +57,14 @@ time_left_seconds = 0
 # Working loop
 while not done:
     # Simulation loop for capturing keyboard inputs
-    meter_pulse = 0
-    reset = 0
+    if using_raspberry:
+        meter_pulse = GPIO.input(physical_connection['meter_pulse'])
+        alarm = GPIO.input(physical_connection['alarm'])
+        reset = GPIO.input(physical_connection['reset_pulse'])
+        close_ui = GPIO.input(physical_connection['close_ui'])
+    else:
+        meter_pulse = 0
+        reset = 0
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN and not event.unicode == '':
             if event.unicode == 'j':
@@ -179,8 +178,9 @@ while not done:
         lcd.blit(text_small_bottom, text_box_small)
     # Set text sizes
 
-
+    #Keep updating every cycle
     pygame.display.update()
+    print (meter_pulse, reset, alarm)
     # Meter counter
     if not meter_pulse and meter_debounce_bit == 0:
         current_drum += 1
@@ -191,7 +191,7 @@ while not done:
         meter_debounce_bit = 0
 
     # Reset drum length
-    if not meter_pulse and reset_debounce_bit == 0:
+    if not reset_pulse and reset_debounce_bit == 0:
         last_drum = current_drum
         current_drum = 0
         reset_debounce_bit = 1
