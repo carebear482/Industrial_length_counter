@@ -191,7 +191,7 @@ while not done:
         meter_debounce_bit = 0
 
     # Reset drum length
-    if not reset_pulse and reset_debounce_bit == 0:
+    if not reset and reset_debounce_bit == 0:
         last_drum = current_drum
         current_drum = 0
         reset_debounce_bit = 1
