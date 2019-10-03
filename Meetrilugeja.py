@@ -147,7 +147,7 @@ while not done:
         time = hours_to_screen + ':' + minutes_to_screen + ':' + seconds_to_screen
 
     # Paint background color to red in case of alarm
-    if alarm:
+    if not alarm:
         lcd.fill(color['red'])
     elif timer_setpoint_in_seconds == int(timer_total_second) and not timer_setpoint_in_seconds == 0:
         lcd.fill(color['green'])
