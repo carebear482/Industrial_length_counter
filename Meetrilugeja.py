@@ -3,7 +3,7 @@ import pygame
 # If raspberry is not used simulation in other platforms is possible
 using_raspberry = True
 #Select corret mode either counter or timer
-using_as_counter = 0
+using_as_counter = 1
 
 if using_raspberry:
     import RPi.GPIO as GPIO
@@ -107,7 +107,7 @@ while not done:
         timer_total_second = 0
 
     # Stop counting when setpoint has reached
-    if timer_setpoint_in_seconds == int(timer_total_second) or reset:
+    if timer_setpoint_in_seconds == int(timer_total_second) or not reset:
         start_time = None
         start = 0
 
