@@ -2,6 +2,9 @@ import pygame
 
 # If raspberry is not used simulation in other platforms is possible
 using_raspberry = True
+#Select corret mode either counter or timer
+using_as_counter = 0
+
 if using_raspberry:
     import RPi.GPIO as GPIO
 
@@ -27,6 +30,8 @@ color = {'white': (255, 255, 255),
          'red': (255, 0, 0),
          'green': (0, 150, 0)}
 
+small_text_box_message = ''
+
 # Initial counter values
 # Drum mode variables
 current_drum = 0
@@ -39,17 +44,13 @@ done = False
 start_time = None
 timer_total_second = 0
 timer_setpoint = ''
-using_as_counter = 1
 start = False
 word = ''
 last_drum_time = 0
-
 setpoint_second = 0
 setpoint_minute = 0
 setpoint_hour = 0
-
 timer_setpoint_in_seconds = 0
-
 time_left_hour = 0
 time_left_minute = 0
 time_left_seconds = 0
@@ -80,6 +81,8 @@ while not done:
                 print(event.unicode)
             if event.unicode == 'r':
                 reset = True
+                start_time = None
+                start = 0
             if event.unicode == 's' and not timer_setpoint == '':
                 start = True
                 start_time = pygame.time.get_ticks()
@@ -93,14 +96,18 @@ while not done:
                     setpoint_minute = (setpoint_hour - int(setpoint_hour)) * 100
                     setpoint_second = (setpoint_minute - int(setpoint_minute)) * 100
             # Press enter to accept the setpoint as int and reset user input
-            if event.key == pygame.K_RETURN and not start and word.isdigit():
+            if event.key == pygame.K_RETURN and word.isdigit():
                 # Convert user input as future setpoint
                 timer_setpoint_in_seconds = int(setpoint_hour) * 3600 + int(setpoint_minute) * 60 + int(
                     setpoint_second)
                 word = ''
+    if not meter_pulse:
+        start = True
+        start_time = pygame.time.get_ticks()
+        timer_total_second = 0
 
     # Stop counting when setpoint has reached
-    if timer_setpoint_in_seconds == int(timer_total_second):
+    if timer_setpoint_in_seconds == int(timer_total_second) or reset:
         start_time = None
         start = 0
 
@@ -162,11 +169,11 @@ while not done:
         text_box_small = text_small_bottom.get_rect(center=(width / 2, (height - height / 10)))
         lcd.blit(text_small_bottom, text_box_small)
     else:
-        font_small = pygame.font.Font(None, 150)
+        font_small = pygame.font.Font(None, 100)
         font_big = pygame.font.Font(None, 600)
         text_big = font_big.render(time, True, color['white'])
         if not start:
-            text_small_bottom = font_small.render('Palun sisesta töö pikkus', True, color['white'])
+            text_small_bottom = font_small.render('Palun sisesta töö pikkus ja vajuta enter', True, color['white'])
         else:
             text_small_bottom = font_small.render('Etteantud aeg %s' % last_drum_time, True, color['white'])
             # Main textbox
